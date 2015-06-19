@@ -17,7 +17,15 @@ namespace Galaxy3D
 		static void Destroy(std::weak_ptr<GameObject> &obj);
 		virtual ~GameObject();
 		template <class T>
-		std::weak_ptr<Component> AddComponent();
+		std::weak_ptr<Component> AddComponent()
+		{
+			auto t = std::make_shared<T>();
+			std::shared_ptr<Component> com = std::dynamic_pointer_cast<Component>(t);
+
+			AddComponent(com);
+
+			return com;
+		}
 
 	protected:
 
@@ -32,6 +40,7 @@ namespace Galaxy3D
 		void Delete();
 		void Update();
 		void LateUpdate();
+		void AddComponent(const std::shared_ptr<Component> &com);
 	};
 }
 

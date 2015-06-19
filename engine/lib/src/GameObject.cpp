@@ -50,12 +50,8 @@ namespace Galaxy3D
 	
 	}
 
-	template <class T>
-	std::weak_ptr<Component> GameObject::AddComponent()
+	void GameObject::AddComponent(const std::shared_ptr<Component> &com)
 	{
-		auto t = std::make_shared<T>();
-		std::shared_ptr<Component> com = std::dynamic_pointer_cast<Component>(t);
-
-		return com;
+		
 	}
 }
