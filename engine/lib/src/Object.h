@@ -11,7 +11,7 @@ namespace Galaxy3D
 	public:
 		virtual ~Object() {}
 		virtual void SetName(const std::string &value) {m_name = value;}
-		const std::string &GetName() const {return m_name;}
+		std::string GetName() const {return m_name;}
 
 	protected:
 		std::string m_name;
