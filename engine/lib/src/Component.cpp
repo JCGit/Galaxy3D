@@ -3,7 +3,8 @@
 namespace Galaxy3D
 {
 	Component::Component():
-		m_deleted(false)
+		m_deleted(false),
+		m_started(false)
 	{
 	}
 
@@ -18,6 +19,9 @@ namespace Galaxy3D
 
 	void Component::Delete()
 	{
-		m_deleted = true;
+		if(!m_deleted)
+		{
+			m_deleted = true;
+		}
 	}
 }

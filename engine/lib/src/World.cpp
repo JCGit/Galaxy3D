@@ -3,37 +3,71 @@
 namespace Galaxy3D
 {
 	std::unordered_map<GameObject *, std::shared_ptr<GameObject>> World::m_gameobjects;
-	std::vector<std::shared_ptr<GameObject>> World::m_gameobjects_new;
+	std::unordered_map<GameObject *, std::shared_ptr<GameObject>> World::m_gameobjects_new;
 
 	void World::AddGameObject(const std::shared_ptr<GameObject> &obj)
 	{
-		m_gameobjects_new.push_back(obj);
+		m_gameobjects_new[obj.get()] = obj;
 	}
 
-	void World::AddNewGameObjects()
+	std::weak_ptr<GameObject> World::FindGameObject(GameObject *obj)
 	{
-		for(std::shared_ptr<GameObject> &obj : m_gameobjects_new)
+		auto find = m_gameobjects.find(obj);
+		if(find != m_gameobjects.end())
 		{
-			m_gameobjects[obj.get()] = obj;
+			return find->second;
 		}
-		m_gameobjects_new.clear();
+
+		find = m_gameobjects_new.find(obj);
+		if(find != m_gameobjects_new.end())
+		{
+			return find->second;
+		}
+
+		return std::weak_ptr<GameObject>();
 	}
 
 	void World::Update()
 	{
-		AddNewGameObjects();
+		m_gameobjects.insert(m_gameobjects_new.begin(), m_gameobjects_new.end());
+		m_gameobjects_new.clear();
 
-		//更新所有根obj,子obj的更新由父亲负责
-		/*
 		for(auto i : m_gameobjects)
 		{
-			i.second->Update();
+			auto &obj = i.second;
+
+			if(!obj->m_deleted)
+			{
+				i.second->Update();
+			}
 		}
 
 		for(auto i : m_gameobjects)
 		{
-			i.second->LateUpdate();
+			auto &obj = i.second;
+
+			if(!obj->m_deleted)
+			{
+				i.second->LateUpdate();
+			}
 		}
-		*/
+
+		//pick deleted
+		std::list<GameObject *> deleted;
+		for(auto i : m_gameobjects)
+		{
+			auto &obj = i.second;
+
+			if(obj->m_deleted)
+			{
+				deleted.push_back(obj.get());
+			}
+		}
+
+		//delete
+		for(auto i : deleted)
+		{
+			m_gameobjects.erase(i);
+		}
 	}
 }
