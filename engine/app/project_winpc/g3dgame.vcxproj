@@ -47,10 +47,11 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)\..\out\winpc\$(Configuration)\</OutDir>
     <LibraryPath>$(SolutionDir)\..\out\winpc\$(Configuration)\;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)\..\..\lib\src\;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\lib\src\d3d11;..\..\lib\src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>..\..\lib\src\d3d11;..\..\lib\src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

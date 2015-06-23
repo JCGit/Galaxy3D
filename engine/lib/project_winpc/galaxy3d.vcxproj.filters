@@ -21,6 +21,12 @@
     <ClCompile Include="..\src\Transform.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\d3d11\GraphicsDevice.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Screen.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Component.h">
@@ -39,6 +45,12 @@
       <Filter>源文件</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Transform.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\d3d11\GraphicsDevice.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Screen.h">
       <Filter>源文件</Filter>
     </ClInclude>
   </ItemGroup>

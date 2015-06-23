@@ -4,14 +4,14 @@
 
 namespace Galaxy3D
 {
-	std::weak_ptr<GameObject> GameObject::Create(const std::string &name)
+	std::shared_ptr<GameObject> GameObject::Create(const std::string &name)
 	{
 		auto obj = std::shared_ptr<GameObject>(new GameObject(name));
 		World::AddGameObject(obj);
 
 		auto transform = std::shared_ptr<Transform>(new Transform());
 		obj->m_transform = transform;
-		obj->AddComponent(transform);
+		obj->AddComponent(transform, true);
 
 		return obj;
 	}
@@ -91,9 +91,16 @@ namespace Galaxy3D
 		}
 	}
 
-	void GameObject::AddComponent(const std::shared_ptr<Component> &com)
+	void GameObject::AddComponent(const std::shared_ptr<Component> &com, bool immediately)
 	{
-		m_components_new.push_back(com);
+		if(immediately)
+		{
+			m_components.push_back(com);
+		}
+		else
+		{
+			m_components_new.push_back(com);
+		}
 
 		auto obj = World::FindGameObject(this);
 		com->m_gameobject = obj;
@@ -104,9 +111,10 @@ namespace Galaxy3D
 	void GameObject::SetActive(bool active)
 	{
 		m_active_self = active;
+
 		if(	(m_active_in_hierarchy != active) && 
 			(m_transform.lock()->IsRoot() ||
-			m_transform.lock()->GetParent().lock()->GetGameObject().lock()->IsActiveInHierarchy()))
+			m_transform.lock()->GetParent().lock()->GetGameObject()->IsActiveInHierarchy()))
 		{
 			SetActiveInHierarchy(active);
 		}
@@ -114,6 +122,35 @@ namespace Galaxy3D
 
 	void GameObject::SetActiveInHierarchy(bool active)
 	{
-		
+		if(m_active_in_hierarchy != active)
+		{
+			m_active_in_hierarchy = active;
+
+			for(auto &i : m_components)
+			{
+				if(i->IsEnable())
+				{
+					if(m_active_in_hierarchy)
+					{
+						i->OnEnable();
+					}
+					else
+					{
+						i->OnDisable();
+					}
+				}
+			}
+
+			auto transform = m_transform.lock();
+			int child_count = transform->GetChildCount();
+			for(int i=0; i<child_count; i++)
+			{
+				auto child = transform->GetChild(i);
+				if(child->GetGameObject()->IsActiveSelf())
+				{
+					child->GetGameObject()->SetActiveInHierarchy(active);
+				}
+			}
+		}
 	}
 }

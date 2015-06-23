@@ -5,7 +5,11 @@
 
 #include "GameObject.h"
 #include "World.h"
+#include "GraphicsDevice.h"
+#include "Screen.h"
 #pragma comment(lib, "galaxy3d.lib")
+#pragma comment(lib, "d3d11.lib")
+using namespace Galaxy3D;
 
 static const char g_title[] = "Galaxy3D Game";
 static const int g_screen_w = 640;
@@ -18,11 +22,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	auto obj = Galaxy3D::GameObject::Create("obj");
-	auto obj2 = Galaxy3D::GameObject::Create("obj2");
-	auto obj3 = Galaxy3D::GameObject::Create("obj3");
-	obj2.lock()->GetTransform().lock()->SetParent(obj.lock()->GetTransform());
-	obj2.lock()->GetTransform().lock()->SetParent(obj3.lock()->GetTransform());
+	auto obj = GameObject::Create("obj");
+	auto obj2 = GameObject::Create("obj2");
+	auto obj3 = GameObject::Create("obj3");
+	obj2->GetTransform()->SetParent(obj->GetTransform());
+	obj2->GetTransform()->SetParent(obj3->GetTransform());
+	obj3->SetActive(false);
+	obj3->SetActive(true);
 
 	AllocConsole();
 	FILE* fstdout = 0;
@@ -30,6 +36,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	if(FAILED(InitWindow(hInstance, nCmdShow, g_screen_w, g_screen_h)))
 		return 0;
+
+	Screen::SetSize(g_screen_w, g_screen_h);
+	GraphicsDevice::GetInstance()->Init(g_hwnd);
 
 	// Main message loop
 	MSG msg = {0};

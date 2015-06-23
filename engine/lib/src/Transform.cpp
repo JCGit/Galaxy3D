@@ -42,4 +42,9 @@ namespace Galaxy3D
 			m_parent.lock()->AddChild(m_transform);
 		}
 	}
+
+	std::shared_ptr<Transform> Transform::GetChild(int index) const
+	{
+		return m_children[index].lock();
+	}
 }

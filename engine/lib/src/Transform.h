@@ -2,7 +2,7 @@
 #define __Transform_h__
 
 #include "Component.h"
-#include <list>
+#include <vector>
 
 namespace Galaxy3D
 {
@@ -14,12 +14,14 @@ namespace Galaxy3D
 		std::weak_ptr<Transform> GetParent() const {return m_parent;}
 		void SetParent(const std::weak_ptr<Transform> &parent);
 		bool IsRoot() const {return m_parent.expired();}
+		int GetChildCount() const {return m_children.size();}
+		std::shared_ptr<Transform> GetChild(int index) const;
 
 	protected:
 
 	private:
 		std::weak_ptr<Transform> m_parent;
-		std::list<std::weak_ptr<Transform>> m_children;
+		std::vector<std::weak_ptr<Transform>> m_children;
 
 		Transform();
 		void SetBeRoot();

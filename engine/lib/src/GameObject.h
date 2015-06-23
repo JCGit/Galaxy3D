@@ -4,7 +4,7 @@
 #include "Object.h"
 #include "Component.h"
 #include "Transform.h"
-#include <vector>
+#include <list>
 #include <memory>
 
 namespace Galaxy3D
@@ -14,11 +14,11 @@ namespace Galaxy3D
 		friend class World;
 
 	public:
-		static std::weak_ptr<GameObject> Create(const std::string &name);
+		static std::shared_ptr<GameObject> Create(const std::string &name);
 		static void Destroy(std::weak_ptr<GameObject> &obj);
 		virtual ~GameObject();
-		template<class T> inline std::weak_ptr<Component> AddComponent();
-		std::weak_ptr<Transform> GetTransform() const {return m_transform;}
+		template<class T> inline std::shared_ptr<Component> AddComponent();
+		std::shared_ptr<Transform> GetTransform() const {return m_transform.lock();}
 		bool IsActiveInHierarchy() const {return m_active_in_hierarchy;}
 		bool IsActiveSelf()const {return m_active_self;}
 		void SetActive(bool active);
@@ -38,11 +38,11 @@ namespace Galaxy3D
 		void Delete();
 		void Update();
 		void LateUpdate();
-		void AddComponent(const std::shared_ptr<Component> &com);
+		void AddComponent(const std::shared_ptr<Component> &com, bool immediately);
 		void SetActiveInHierarchy(bool active);
 	};
 
-	template<class T> inline std::weak_ptr<Component> GameObject::AddComponent()
+	template<class T> inline std::shared_ptr<Component> GameObject::AddComponent()
 	{
 		if(m_deleted)
 		{
@@ -52,7 +52,7 @@ namespace Galaxy3D
 		auto t = std::make_shared<T>();
 		std::shared_ptr<Component> com = std::dynamic_pointer_cast<Component>(t);
 
-		AddComponent(com);
+		AddComponent(com, false);
 
 		return com;
 	}
