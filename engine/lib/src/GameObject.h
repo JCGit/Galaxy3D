@@ -23,8 +23,6 @@ namespace Galaxy3D
 		bool IsActiveSelf()const {return m_active_self;}
 		void SetActive(bool active);
 
-	protected:
-
 	private:
 		std::list<std::shared_ptr<Component>> m_components;
 		std::list<std::shared_ptr<Component>> m_components_new;
@@ -46,7 +44,7 @@ namespace Galaxy3D
 	{
 		if(m_deleted)
 		{
-			return std::weak_ptr<Component>();
+			return std::shared_ptr<Component>();
 		}
 
 		auto t = std::make_shared<T>();

@@ -17,8 +17,6 @@ namespace Galaxy3D
 		int GetChildCount() const {return m_children.size();}
 		std::shared_ptr<Transform> GetChild(int index) const;
 
-	protected:
-
 	private:
 		std::weak_ptr<Transform> m_parent;
 		std::vector<std::weak_ptr<Transform>> m_children;

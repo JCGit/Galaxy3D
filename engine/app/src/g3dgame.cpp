@@ -7,8 +7,15 @@
 #include "World.h"
 #include "GraphicsDevice.h"
 #include "Screen.h"
+#include "Camera.h"
+#include "Texture2D.h"
+
+#pragma comment(lib, "jpeg.lib")
+#pragma comment(lib, "png.lib")
+#pragma comment(lib, "zlib.lib")
 #pragma comment(lib, "galaxy3d.lib")
 #pragma comment(lib, "d3d11.lib")
+#pragma comment(lib, "winmm.lib")
 using namespace Galaxy3D;
 
 static const char g_title[] = "Galaxy3D Game";
@@ -22,14 +29,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	auto obj = GameObject::Create("obj");
-	auto obj2 = GameObject::Create("obj2");
-	auto obj3 = GameObject::Create("obj3");
-	obj2->GetTransform()->SetParent(obj->GetTransform());
-	obj2->GetTransform()->SetParent(obj3->GetTransform());
-	obj3->SetActive(false);
-	obj3->SetActive(true);
-
 	AllocConsole();
 	FILE* fstdout = 0;
 	freopen_s(&fstdout, "CONOUT$", "w", stdout);
@@ -39,6 +38,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	Screen::SetSize(g_screen_w, g_screen_h);
 	GraphicsDevice::GetInstance()->Init(g_hwnd);
+
+	auto obj = GameObject::Create("obj");
+	auto cam = obj->AddComponent<Camera>();
+	auto tex = Texture2D::LoadImageFile("horse.jpg");
 
 	// Main message loop
 	MSG msg = {0};
@@ -53,9 +56,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		{
 			Sleep(1);
 
-			Galaxy3D::World::Update();
+			World::Update();
+			Camera::RenderAll();
 		}
 	}
+
+	World::Destroy();
 
 	if(fstdout != 0)
 	{

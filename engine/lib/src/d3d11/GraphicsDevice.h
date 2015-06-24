@@ -12,6 +12,11 @@ namespace Galaxy3D
 		GraphicsDevice();
 		~GraphicsDevice();
 		void Init(void *param);
+		ID3D11Device *GetDevice() const {return m_d3d_device;}
+		IDXGISwapChain *GetSwapChain() const {return m_swap_chain;}
+		ID3D11DeviceContext *GetDeviceContext() const {return m_immediate_context;}
+		ID3D11RenderTargetView *GetRenderTargetView() const {return m_render_target_view;}
+		ID3D11DepthStencilView *GetDepthStencilView() const {return m_depth_stencil_view;}
 
 	private:
 		ID3D11Device *m_d3d_device;
@@ -22,5 +27,13 @@ namespace Galaxy3D
 		ID3D11DepthStencilView *m_depth_stencil_view;
 	};
 }
+
+#define SAFE_RELEASE(p) \
+	do { \
+		if(p != nullptr) { \
+			p->Release(); \
+			p = nullptr; \
+		} \
+	}while(false)
 
 #endif

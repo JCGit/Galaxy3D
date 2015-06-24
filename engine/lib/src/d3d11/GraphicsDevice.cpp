@@ -1,14 +1,6 @@
 #include "GraphicsDevice.h"
 #include "../Screen.h"
 
-#define SAFE_RELEASE(p) \
-	do { \
-		if(p != nullptr) { \
-			p->Release(); \
-			p = nullptr; \
-		} \
-	}while(false)
-
 namespace Galaxy3D
 {
 	GraphicsDevice *GraphicsDevice::GetInstance()
@@ -132,11 +124,5 @@ namespace Galaxy3D
 		descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 		descDSV.Texture2D.MipSlice = 0;
 		m_d3d_device->CreateDepthStencilView(m_depth_stencil_texture, &descDSV, &m_depth_stencil_view);
-
-		//clear and present
-		float bg[] = {0, 0, 1, 1};
-		m_immediate_context->ClearRenderTargetView(m_render_target_view, (const float *) bg);
-		m_immediate_context->ClearDepthStencilView(m_depth_stencil_view, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
-		m_swap_chain->Present(0, 0);
 	}
 }

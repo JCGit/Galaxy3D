@@ -13,8 +13,7 @@ namespace Galaxy3D
 		static void AddGameObject(const std::shared_ptr<GameObject> &obj);
 		static std::weak_ptr<GameObject> FindGameObject(GameObject *obj);
 		static void Update();
-
-	protected:
+		static void Destroy();
 
 	private:
 		static std::unordered_map<GameObject *, std::shared_ptr<GameObject>> m_gameobjects;
