@@ -9,6 +9,7 @@
 #include "Screen.h"
 #include "Camera.h"
 #include "Texture2D.h"
+#include "Sprite.h"
 
 #pragma comment(lib, "jpeg.lib")
 #pragma comment(lib, "png.lib")
@@ -42,6 +43,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	auto obj = GameObject::Create("obj");
 	auto cam = obj->AddComponent<Camera>();
 	auto tex = Texture2D::LoadImageFile("horse.jpg");
+	auto sprite = Sprite::Create(tex, Rect(0, 0, 582, 438), Vector2(0, 0), 100, Vector4(0, 0, 0, 0));
 
 	// Main message loop
 	MSG msg = {0};

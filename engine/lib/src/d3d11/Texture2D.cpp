@@ -171,19 +171,22 @@ namespace Galaxy3D
 	void Texture2D::Apply()
 	{
 		auto device = GraphicsDevice::GetInstance()->GetDevice();
+		auto context = GraphicsDevice::GetInstance()->GetDeviceContext();
+
+		bool mipmap = false;
 
 		D3D11_TEXTURE2D_DESC desc;
         desc.Width = static_cast<UINT>(m_width);
         desc.Height = static_cast<UINT>(m_height);
-        desc.MipLevels = 1;
+        desc.MipLevels = mipmap ? 0 : 1;
         desc.ArraySize = 1;
         desc.Format = TEXTURE_FORMATS[m_format];
         desc.SampleDesc.Count = 1;
         desc.SampleDesc.Quality = 0;
         desc.Usage = D3D11_USAGE_DEFAULT;
-        desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+        desc.BindFlags = mipmap ? (D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE) : D3D11_BIND_SHADER_RESOURCE;
         desc.CPUAccessFlags = 0;
-        desc.MiscFlags = 0;
+        desc.MiscFlags = mipmap ? D3D11_RESOURCE_MISC_GENERATE_MIPS : 0;
 
 		D3D11_SUBRESOURCE_DATA init_data;
 		ZeroMemory(&init_data, sizeof(init_data));
@@ -218,7 +221,12 @@ namespace Galaxy3D
 		}
 
         ID3D11Texture2D* tex = 0;
-		HRESULT hr = device->CreateTexture2D(&desc, &init_data, &tex);
+		HRESULT hr = device->CreateTexture2D(&desc, mipmap ? 0 : &init_data, &tex);
+
+		if(mipmap)
+		{
+			context->UpdateSubresource(tex, 0, 0, init_data.pSysMem, init_data.SysMemPitch, 0);
+		}
 		
 		if(buffer != 0)
 		{
@@ -233,6 +241,11 @@ namespace Galaxy3D
 
 		hr = device->CreateShaderResourceView(tex, &srvd, &m_texture);
 		tex->Release();
+
+		if(mipmap)
+		{
+			context->GenerateMips(m_texture);
+		}
 
 		D3D11_SAMPLER_DESC sampDesc;
 		ZeroMemory(&sampDesc, sizeof(sampDesc));

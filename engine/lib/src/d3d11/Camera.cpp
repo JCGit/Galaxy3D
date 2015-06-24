@@ -11,7 +11,13 @@ namespace Galaxy3D
 	Camera::Camera():
 		m_clear_flags(CameraClearFlags::SolidColor),
 		m_clear_color(0, 0, 1, 1),
-		m_depth(0)
+		m_depth(0),
+		m_culling_mask(-1),
+		m_orthographic(true),
+		m_orthographic_size(5),
+		m_field_of_view(60),
+		m_far_clip_plane(1),//1000
+		m_near_clip_plane(-1)//0.3f
 	{
 		m_all_camera.push_back(this);
 		m_all_camera.sort(Less);

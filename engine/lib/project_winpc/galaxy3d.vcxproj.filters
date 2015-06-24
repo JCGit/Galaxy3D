@@ -75,6 +75,15 @@
     <ClCompile Include="..\src\Application.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Rect.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Matrix4x4.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Quaternion.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Component.h">
@@ -162,6 +171,21 @@
       <Filter>源文件</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Application.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Rect.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Vector4.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SpriteMeshType.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Matrix4x4.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Quaternion.h">
       <Filter>源文件</Filter>
     </ClInclude>
   </ItemGroup>

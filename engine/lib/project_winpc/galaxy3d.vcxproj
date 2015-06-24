@@ -26,8 +26,11 @@
     <ClCompile Include="..\src\GTTime.cpp" />
     <ClCompile Include="..\src\Image.cpp" />
     <ClCompile Include="..\src\Mathf.cpp" />
+    <ClCompile Include="..\src\Matrix4x4.cpp" />
     <ClCompile Include="..\src\Object.cpp" />
+    <ClCompile Include="..\src\Quaternion.cpp" />
     <ClCompile Include="..\src\Ray.cpp" />
+    <ClCompile Include="..\src\Rect.cpp" />
     <ClCompile Include="..\src\Screen.cpp" />
     <ClCompile Include="..\src\Sprite.cpp" />
     <ClCompile Include="..\src\Transform.cpp" />
@@ -54,16 +57,21 @@
     <ClInclude Include="..\src\Image.h" />
     <ClInclude Include="..\src\Layer.h" />
     <ClInclude Include="..\src\Mathf.h" />
+    <ClInclude Include="..\src\Matrix4x4.h" />
     <ClInclude Include="..\src\Object.h" />
+    <ClInclude Include="..\src\Quaternion.h" />
     <ClInclude Include="..\src\Ray.h" />
+    <ClInclude Include="..\src\Rect.h" />
     <ClInclude Include="..\src\Screen.h" />
     <ClInclude Include="..\src\Sprite.h" />
+    <ClInclude Include="..\src\SpriteMeshType.h" />
     <ClInclude Include="..\src\Texture.h" />
     <ClInclude Include="..\src\TextureFormat.h" />
     <ClInclude Include="..\src\TextureWrapMode.h" />
     <ClInclude Include="..\src\Transform.h" />
     <ClInclude Include="..\src\Vector2.h" />
     <ClInclude Include="..\src\Vector3.h" />
+    <ClInclude Include="..\src\Vector4.h" />
     <ClInclude Include="..\src\World.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -97,7 +105,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)\..\out\winpc\$(Configuration)\</OutDir>
-    <IncludePath>..\..\lib\depend\zlib\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\lib\depend\zlib\include;..\..\lib\src\d3d11;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
