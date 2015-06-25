@@ -2,6 +2,20 @@
 
 namespace Galaxy3D
 {
+	std::shared_ptr<Sprite> Sprite::Create(const std::weak_ptr<Texture2D> &texture)
+	{
+		auto tex = texture.lock();
+		int w = tex->GetWidth();
+		int h = tex->GetHeight();
+
+		return Create(
+			texture,
+			Rect(0, 0, (float) w, (float) h),
+			Vector2((float) (w/2), (float) (h/2)),
+			100,
+			Vector4(0, 0, 0, 0));
+	}
+
 	std::shared_ptr<Sprite> Sprite::Create(
 			const std::weak_ptr<Texture2D> &texture,
 			const Rect &rect,
@@ -17,8 +31,10 @@ namespace Galaxy3D
 		sprite->m_border = border;
 
 		float v_ppu = 1 / pixels_per_unit;
-		float v_w = 1.0f / texture.lock()->GetWidth();
-		float v_h = 1.0f / texture.lock()->GetHeight();
+
+		auto tex = texture.lock();
+		float v_w = 1.0f / tex->GetWidth();
+		float v_h = 1.0f / tex->GetHeight();
 
 		float left = -pivot.x;
 		float top = -pivot.y;

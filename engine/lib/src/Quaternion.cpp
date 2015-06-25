@@ -48,7 +48,15 @@ namespace Galaxy3D
 
 	bool Quaternion::operator !=(const Quaternion &v) const
 	{
-		return !(fabs(v.x - x) < Mathf::Epsilon && fabs(v.y - y) < Mathf::Epsilon && fabs(v.z - z) < Mathf::Epsilon && fabs(v.w - w) < Mathf::Epsilon);
+		return !(*this == v);
+	}
+
+	bool Quaternion::operator ==(const Quaternion &v) const
+	{
+		return Mathf::FloatEqual(v.x, x) &&
+			Mathf::FloatEqual(v.y, y) &&
+			Mathf::FloatEqual(v.z, z) &&
+			Mathf::FloatEqual(v.w, w);
 	}
 
 	Quaternion Quaternion::Inverse(const Quaternion &q)

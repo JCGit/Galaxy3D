@@ -84,6 +84,9 @@
     <ClCompile Include="..\src\Quaternion.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Renderer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Component.h">
@@ -186,6 +189,9 @@
       <Filter>源文件</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Quaternion.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Renderer.h">
       <Filter>源文件</Filter>
     </ClInclude>
   </ItemGroup>

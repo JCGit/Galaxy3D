@@ -12,6 +12,7 @@ namespace Galaxy3D
 	class GameObject : public Object
 	{
 		friend class World;
+		friend class Transform;
 
 	public:
 		static std::shared_ptr<GameObject> Create(const std::string &name);

@@ -3,6 +3,7 @@
 #include "GraphicsDevice.h"
 #include "../GTTime.h"
 #include "../Debug.h"
+#include "../Screen.h"
 
 namespace Galaxy3D
 {
@@ -17,10 +18,13 @@ namespace Galaxy3D
 		m_orthographic_size(5),
 		m_field_of_view(60),
 		m_far_clip_plane(1),//1000
-		m_near_clip_plane(-1)//0.3f
+		m_near_clip_plane(-1),//0.3f
+		m_rect(0, 0, 1, 1)
 	{
 		m_all_camera.push_back(this);
 		m_all_camera.sort(Less);
+
+		UpdateMatrix();
 	}
 
 	Camera::~Camera()
@@ -37,6 +41,52 @@ namespace Galaxy3D
 	{
 		m_depth = depth;
 		m_all_camera.sort(Less);
+	}
+
+	void Camera::UpdateMatrix()
+	{
+		int width = Screen::GetWidth();
+		int height = Screen::GetHeight();
+
+		/*
+		m_view_matrix = Matrix4x4::LookTo(
+			transform->GetPosition(),
+			transform->GetForward(),
+			transform->GetUp());
+			*/
+		
+		if(!m_orthographic)
+		{
+			m_projection_matrix = Matrix4x4::Perspective(m_field_of_view, width / (float) height, m_near_clip_plane, m_far_clip_plane);
+		}
+		else
+		{
+			float top = m_orthographic_size;
+			float bottom = -m_orthographic_size;
+			float plane_h = m_orthographic_size * 2;
+			float plane_w = plane_h * (width * m_rect.width) / (height * m_rect.height);
+			m_projection_matrix = Matrix4x4::Ortho(-plane_w/2, plane_w/2, bottom, top, m_near_clip_plane, m_far_clip_plane);
+		}
+
+		m_view_projection_matrix = m_projection_matrix * m_view_matrix;
+	}
+
+	void Camera::SetViewport() const
+	{
+		auto context = GraphicsDevice::GetInstance()->GetDeviceContext();
+
+		int width = Screen::GetWidth();
+		int height = Screen::GetHeight();
+
+		D3D11_VIEWPORT vp;
+		vp.Width = m_rect.width * width;
+		vp.Height = m_rect.height * height;
+		vp.MinDepth = 0.0f;
+		vp.MaxDepth = 1.0f;
+		vp.TopLeftX = m_rect.left * width;
+		vp.TopLeftY = m_rect.top * height;
+
+		context->RSSetViewports(1, &vp);
 	}
 
 	void Camera::UpdateTime()
@@ -81,13 +131,21 @@ namespace Galaxy3D
 		GTTime::m_render_time = GTTime::GetRealTimeSinceStartup() - time;
 	}
 
-	void Camera::Render()
+	void Camera::Render() const
 	{
 		auto context = GraphicsDevice::GetInstance()->GetDeviceContext();
 		auto render_buffer= GraphicsDevice::GetInstance()->GetRenderTargetView();
 		auto depth_buffer = GraphicsDevice::GetInstance()->GetDepthStencilView();
 
+		SetViewport();
+
+		//set target
+		context->OMSetRenderTargets(1, &render_buffer, depth_buffer);
+
+		//clear
 		context->ClearRenderTargetView(render_buffer, (const float *) &m_clear_color);
 		context->ClearDepthStencilView(depth_buffer, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+
+		//render
 	}
 }

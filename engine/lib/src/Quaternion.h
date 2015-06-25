@@ -13,6 +13,7 @@ namespace Galaxy3D
 		Quaternion operator *(const Quaternion &q) const;
 		Vector3 operator *(const Vector3 &p) const;
 		bool operator !=(const Quaternion &v) const;
+		bool operator ==(const Quaternion &v) const;
 		Vector3 ToEulerAngles() const;
 		std::string ToString() const;
 

@@ -115,7 +115,14 @@ namespace Galaxy3D
 
 	bool Vector3::operator !=(const Vector3 &v) const
 	{
-		return !(fabs(v.x - x) < Mathf::Epsilon && fabs(v.y - y) < Mathf::Epsilon && fabs(v.z - z) < Mathf::Epsilon);
+		return !(*this == v);
+	}
+
+	bool Vector3::operator ==(const Vector3 &v) const
+	{
+		return Mathf::FloatEqual(v.x, x) &&
+			Mathf::FloatEqual(v.y, y) &&
+			Mathf::FloatEqual(v.z, z);
 	}
 
 	float Vector3::Dot(const Vector3 &v) const

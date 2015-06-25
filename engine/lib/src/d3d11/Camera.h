@@ -5,6 +5,7 @@
 #include "../CameraClearFlags.h"
 #include "../Color.h"
 #include "../Matrix4x4.h"
+#include "../Rect.h"
 #include <list>
 
 namespace Galaxy3D
@@ -14,7 +15,7 @@ namespace Galaxy3D
 	public:
 		static void RenderAll();
 		Camera();
-		virtual ~Camera();
+		~Camera();
 		void SetClearFlags(CameraClearFlags::Enum flag) {m_clear_flags = flag;}
 		void SetClearColor(const Color &color) {m_clear_color = color;}
 		void SetDepth(int depth);
@@ -24,6 +25,8 @@ namespace Galaxy3D
 		void SetOrthographicSize(float ortho_size) {m_orthographic_size = ortho_size;}
 		void SetFieldOfView(float fov) {m_field_of_view = fov;}
 		void SetClipPlane(float near_clip, float far_clip) {m_near_clip_plane = near_clip; m_far_clip_plane = far_clip;}
+		void SetRect(const Rect &rect) {m_rect = rect;}
+		void UpdateMatrix();
 		
 	private:
 		static std::list<Camera *> m_all_camera;
@@ -36,10 +39,15 @@ namespace Galaxy3D
 		float m_field_of_view;
 		float m_near_clip_plane;
 		float m_far_clip_plane;
+		Rect m_rect;
+		Matrix4x4 m_view_matrix;
+		Matrix4x4 m_projection_matrix;
+		Matrix4x4 m_view_projection_matrix;
 
 		static bool Camera::Less(const Camera *c1, const Camera *c2);
 		static void UpdateTime();
-		void Render();
+		void Render() const;
+		void SetViewport() const;
 	};
 }
 

@@ -144,6 +144,7 @@ namespace Galaxy3D
 		{
 			auto data = GTFile::ReadAllBytes(file_name);
 			tex = LoadImageData(&data[0], data.size());
+			tex->SetName(file_name);
 		}
 
 		return tex;

@@ -12,6 +12,7 @@ namespace Galaxy3D
 	class Sprite : Object
 	{
 	public:
+		static std::shared_ptr<Sprite> Create(const std::weak_ptr<Texture2D> &texture);
 		//rect:Location of the Sprite on the original Texture, specified in pixels.
 		//pivot:Location of the Sprite's center point in the Rect on the original Texture, specified in pixels.
 		//pixels_per_unit:The number of pixels in the sprite that correspond to one unit in world space. (Read Only)

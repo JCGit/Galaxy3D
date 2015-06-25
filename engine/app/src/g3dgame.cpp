@@ -42,8 +42,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	auto obj = GameObject::Create("obj");
 	auto cam = obj->AddComponent<Camera>();
-	auto tex = Texture2D::LoadImageFile("horse.jpg");
-	auto sprite = Sprite::Create(tex, Rect(0, 0, 582, 438), Vector2(0, 0), 100, Vector4(0, 0, 0, 0));
+	auto tex = Texture2D::LoadImageFile("mustang.jpg");
+	auto sprite = Sprite::Create(tex);
 
 	// Main message loop
 	MSG msg = {0};
