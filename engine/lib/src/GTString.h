@@ -22,7 +22,7 @@ namespace Galaxy3D
 
 		GTString(const std::string &str):str(str){}
 		GTString Replace(const std::string &old, const std::string &replace) const;
-		std::vector<GTString> Split(const std::string &split) const;
+		std::vector<GTString> Split(const std::string &split, bool remove_empty = false) const;
 		GTString ToUpper() const;
 		GTString ToLower() const;
 		bool StartsWith(const std::string &value) const;

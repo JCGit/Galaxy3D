@@ -7,7 +7,7 @@
 
 namespace Galaxy3D
 {
-	std::list<Camera *> Camera::m_all_camera;
+	std::list<Camera *> Camera::m_cameras;
 
 	Camera::Camera():
 		m_clear_flags(CameraClearFlags::SolidColor),
@@ -21,15 +21,18 @@ namespace Galaxy3D
 		m_near_clip_plane(-1),//0.3f
 		m_rect(0, 0, 1, 1)
 	{
-		m_all_camera.push_back(this);
-		m_all_camera.sort(Less);
+		m_cameras.push_back(this);
+		m_cameras.sort(Less);
+	}
 
+	void Camera::Start()
+	{
 		UpdateMatrix();
 	}
 
 	Camera::~Camera()
 	{
-		m_all_camera.remove(this);
+		m_cameras.remove(this);
 	}
 
 	bool Camera::Less(const Camera *c1, const Camera *c2)
@@ -40,20 +43,19 @@ namespace Galaxy3D
 	void Camera::SetDepth(int depth)
 	{
 		m_depth = depth;
-		m_all_camera.sort(Less);
+		m_cameras.sort(Less);
 	}
 
 	void Camera::UpdateMatrix()
 	{
 		int width = Screen::GetWidth();
 		int height = Screen::GetHeight();
+		auto transform = GetTransform();
 
-		/*
 		m_view_matrix = Matrix4x4::LookTo(
 			transform->GetPosition(),
 			transform->GetForward(),
 			transform->GetUp());
-			*/
 		
 		if(!m_orthographic)
 		{
@@ -117,7 +119,7 @@ namespace Galaxy3D
 
 		UpdateTime();
 
-		for(auto i : m_all_camera)
+		for(auto i : m_cameras)
 		{
 			auto obj = i->GetGameObject();
 			if(obj->IsActiveInHierarchy() && i->IsEnable())
@@ -145,7 +147,7 @@ namespace Galaxy3D
 		//clear
 		context->ClearRenderTargetView(render_buffer, (const float *) &m_clear_color);
 		context->ClearDepthStencilView(depth_buffer, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
-
+		
 		//render
 	}
 }

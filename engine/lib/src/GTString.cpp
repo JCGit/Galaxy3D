@@ -19,7 +19,7 @@ namespace Galaxy3D
 		return ret;
 	}
 
-	std::vector<GTString> GTString::Split(const std::string &split) const
+	std::vector<GTString> GTString::Split(const std::string &split, bool remove_empty) const
 	{
 		std::vector<GTString> ret;
 
@@ -27,11 +27,20 @@ namespace Galaxy3D
 		size_t find;
 		while((find = str.find(split, pos)) != std::string::npos)
 		{
-			ret.push_back(str.substr(pos, find - pos));
+			auto s = str.substr(pos, find - pos);
+			if(!s.empty() || !remove_empty)
+			{
+				ret.push_back(s);
+			}
+
 			pos = find + 1;
 		}
 
-		ret.push_back(str.substr(pos));
+		auto s = str.substr(pos);
+		if(!s.empty() || !remove_empty)
+		{
+			ret.push_back(s);
+		}
 
 		return ret;
 	}

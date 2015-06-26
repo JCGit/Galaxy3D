@@ -25,7 +25,7 @@ namespace Galaxy3D
 		Renderer();
 
 	private:
-		static std::list<Renderer *> m_all_renderers;
+		static std::list<Renderer *> m_renderers;
 
 		static bool Less(const Renderer *c1, const Renderer *c2);
 	};

@@ -3,7 +3,7 @@
 
 #include "../Texture.h"
 #include "../TextureFormat.h"
-#include "GraphicsDevice.h"
+#include <d3d11.h>
 #include <vector>
 
 namespace Galaxy3D

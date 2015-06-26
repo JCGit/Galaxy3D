@@ -17,6 +17,7 @@
     <ClCompile Include="..\src\Component.cpp" />
     <ClCompile Include="..\src\d3d11\Camera.cpp" />
     <ClCompile Include="..\src\d3d11\GraphicsDevice.cpp" />
+    <ClCompile Include="..\src\d3d11\Shader.cpp" />
     <ClCompile Include="..\src\d3d11\Texture2D.cpp" />
     <ClCompile Include="..\src\Debug.cpp" />
     <ClCompile Include="..\src\GameObject.cpp" />
@@ -47,7 +48,13 @@
     <ClInclude Include="..\src\Component.h" />
     <ClInclude Include="..\src\d3d11\Camera.h" />
     <ClInclude Include="..\src\d3d11\GraphicsDevice.h" />
+    <ClInclude Include="..\src\d3d11\PixelShader.h" />
+    <ClInclude Include="..\src\d3d11\Shader.h" />
+    <ClInclude Include="..\src\d3d11\ShaderConstantBuffer.h" />
+    <ClInclude Include="..\src\d3d11\ShaderSampler.h" />
+    <ClInclude Include="..\src\d3d11\ShaderTexture.h" />
     <ClInclude Include="..\src\d3d11\Texture2D.h" />
+    <ClInclude Include="..\src\d3d11\VertexShader.h" />
     <ClInclude Include="..\src\Debug.h" />
     <ClInclude Include="..\src\FilterMode.h" />
     <ClInclude Include="..\src\GameObject.h" />
@@ -65,6 +72,7 @@
     <ClInclude Include="..\src\Rect.h" />
     <ClInclude Include="..\src\Renderer.h" />
     <ClInclude Include="..\src\Screen.h" />
+    <ClInclude Include="..\src\ShaderNode.h" />
     <ClInclude Include="..\src\Sprite.h" />
     <ClInclude Include="..\src\SpriteMeshType.h" />
     <ClInclude Include="..\src\Texture.h" />
@@ -74,6 +82,7 @@
     <ClInclude Include="..\src\Vector2.h" />
     <ClInclude Include="..\src\Vector3.h" />
     <ClInclude Include="..\src\Vector4.h" />
+    <ClInclude Include="..\src\VertexType.h" />
     <ClInclude Include="..\src\World.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

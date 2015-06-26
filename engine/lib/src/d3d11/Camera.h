@@ -27,9 +27,12 @@ namespace Galaxy3D
 		void SetClipPlane(float near_clip, float far_clip) {m_near_clip_plane = near_clip; m_far_clip_plane = far_clip;}
 		void SetRect(const Rect &rect) {m_rect = rect;}
 		void UpdateMatrix();
+
+	protected:
+		virtual void Start();
 		
 	private:
-		static std::list<Camera *> m_all_camera;
+		static std::list<Camera *> m_cameras;
 		CameraClearFlags::Enum m_clear_flags;
 		Color m_clear_color;
 		int m_depth;

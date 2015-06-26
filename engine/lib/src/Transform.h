@@ -37,6 +37,9 @@ namespace Galaxy3D
 		Vector3 InverseTransformDirection(const Vector3 &dir);
 		const Matrix4x4 &GetLocalToWorldMatrix();
 		const Matrix4x4 &GetWorldToLocalMatrix();
+		Vector3 GetRight();
+		Vector3 GetUp();
+		Vector3 GetForward();
 
 	private:
 		std::weak_ptr<Transform> m_parent;

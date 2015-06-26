@@ -259,4 +259,19 @@ namespace Galaxy3D
 
 		return m_world_to_local_matrix;
 	}
+
+	Vector3 Transform::GetRight()
+	{
+		return GetRotation() * Vector3(1, 0, 0);
+	}
+
+	Vector3 Transform::GetUp()
+	{
+		return GetRotation() * Vector3(0, 1, 0);
+	}
+
+	Vector3 Transform::GetForward()
+	{
+		return GetRotation() * Vector3(0, 0, 1);
+	}
 }
