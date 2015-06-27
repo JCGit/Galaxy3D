@@ -15,6 +15,7 @@ namespace Galaxy3D
 	class Material : public Object
 	{
 	public:
+		static std::shared_ptr<Material> Create(const std::string &shader);
 		static std::shared_ptr<Material> Create(const std::shared_ptr<Shader> &shader);
 		void SetShader(const std::shared_ptr<Shader> &shader);
 		const std::shared_ptr<Shader> &GetShader() {return m_shader;}

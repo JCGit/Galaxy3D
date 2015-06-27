@@ -3,14 +3,11 @@
 #include <d3d11.h>
 #include <cstdio>
 
-#include "GameObject.h"
 #include "World.h"
 #include "GraphicsDevice.h"
 #include "Screen.h"
 #include "Camera.h"
-#include "Texture2D.h"
 #include "Sprite.h"
-#include "Shader.h"
 #include "Application.h"
 #include "Material.h"
 
@@ -45,11 +42,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	Screen::SetSize(g_screen_w, g_screen_h);
 	GraphicsDevice::GetInstance()->Init(g_hwnd);
 
-	auto obj = GameObject::Create("obj");
-	auto cam = obj->AddComponent<Camera>();
-	auto tex = Texture2D::LoadImageFile(Application::GetDataPath() + "/Assets/texture/mustang.jpg");
-	auto sprite = Sprite::Create(tex);
-	auto mat = Material::Create(Shader::Find("Sprite"));
+	auto cam = GameObject::Create("obj")->AddComponent<Camera>();
+	auto sprite = Sprite::Create(Application::GetDataPath() + "/Assets/texture/mustang.jpg");
+	auto mat = Material::Create("Sprite");
 
 	// Main message loop
 	MSG msg = {0};

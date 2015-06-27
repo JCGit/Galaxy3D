@@ -7,6 +7,11 @@ static const std::string MAIN_TEXTURE_NAME = "_MainTex";
 
 namespace Galaxy3D
 {
+	std::shared_ptr<Material> Material::Create(const std::string &shader)
+	{
+		return Create(Shader::Find(shader));
+	}
+
 	std::shared_ptr<Material> Material::Create(const std::shared_ptr<Shader> &shader)
 	{
 		std::shared_ptr<Material> mat(new Material());

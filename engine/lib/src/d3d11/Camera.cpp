@@ -19,8 +19,8 @@ namespace Galaxy3D
 		m_orthographic(true),
 		m_orthographic_size(5),
 		m_field_of_view(60),
-		m_far_clip_plane(1),//1000
 		m_near_clip_plane(-1),//0.3f
+		m_far_clip_plane(1),//1000
 		m_rect(0, 0, 1, 1)
 	{
 		m_cameras.push_back(this);
