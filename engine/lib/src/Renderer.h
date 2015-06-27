@@ -3,6 +3,7 @@
 
 #include "Component.h"
 #include "Vector4.h"
+#include "Material.h"
 #include <list>
 
 namespace Galaxy3D

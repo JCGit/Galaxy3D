@@ -1,11 +1,11 @@
 #ifndef __Camera_h__
 #define __Camera_h__
 
-#include "../Component.h"
-#include "../CameraClearFlags.h"
-#include "../Color.h"
-#include "../Matrix4x4.h"
-#include "../Rect.h"
+#include "Component.h"
+#include "CameraClearFlags.h"
+#include "Color.h"
+#include "Matrix4x4.h"
+#include "Rect.h"
 #include <list>
 
 namespace Galaxy3D

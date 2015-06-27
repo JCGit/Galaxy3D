@@ -1,5 +1,5 @@
 #include "GraphicsDevice.h"
-#include "../Screen.h"
+#include "Screen.h"
 
 namespace Galaxy3D
 {

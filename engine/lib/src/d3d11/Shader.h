@@ -1,10 +1,12 @@
 #ifndef __Shader_h__
 #define __Shader_h__
 
-#include "../Object.h"
-#include "../ShaderNode.h"
+#include "Object.h"
+#include "ShaderNode.h"
 #include "VertexShader.h"
 #include "PixelShader.h"
+#include "RenderStates.h"
+#include "ShaderPass.h"
 #include <unordered_map>
 
 namespace Galaxy3D
@@ -22,6 +24,8 @@ namespace Galaxy3D
 		ShaderNode m_shader_node;
 		std::unordered_map<std::string, VertexShader> m_vertex_shaders;
 		std::unordered_map<std::string, PixelShader> m_pixel_shaders;
+		std::unordered_map<std::string, RenderStates> m_render_states;
+		std::vector<ShaderPass> m_passes;
 		int m_render_queue;
 
 		static void CollectPaths(const std::string &dir);
@@ -31,6 +35,8 @@ namespace Galaxy3D
 		void Parse(const std::string &src);
 		void CompileVS();
 		void CompilePS();
+		void CreateRenderStates();
+		void CreatePass();
 	};
 }
 

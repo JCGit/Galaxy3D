@@ -1,7 +1,7 @@
 #include "Texture2D.h"
 #include "GraphicsDevice.h"
-#include "../Image.h"
-#include "../GTFile.h"
+#include "Image.h"
+#include "GTFile.h"
 
 namespace Galaxy3D
 {

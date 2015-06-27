@@ -27,18 +27,6 @@ namespace Galaxy3D
 				i.second.Release();
 			}
 			cbuffers.clear();
-
-			for(auto i : textures)
-			{
-				i.second.Release();
-			}
-			textures.clear();
-
-			for(auto i : samplers)
-			{
-				i.second.Release();
-			}
-			samplers.clear();
 		}
 	};
 }

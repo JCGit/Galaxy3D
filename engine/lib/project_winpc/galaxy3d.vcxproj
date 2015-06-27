@@ -17,6 +17,8 @@
     <ClCompile Include="..\src\Component.cpp" />
     <ClCompile Include="..\src\d3d11\Camera.cpp" />
     <ClCompile Include="..\src\d3d11\GraphicsDevice.cpp" />
+    <ClCompile Include="..\src\d3d11\Material.cpp" />
+    <ClCompile Include="..\src\d3d11\RenderStates.cpp" />
     <ClCompile Include="..\src\d3d11\Shader.cpp" />
     <ClCompile Include="..\src\d3d11\Texture2D.cpp" />
     <ClCompile Include="..\src\Debug.cpp" />
@@ -48,9 +50,13 @@
     <ClInclude Include="..\src\Component.h" />
     <ClInclude Include="..\src\d3d11\Camera.h" />
     <ClInclude Include="..\src\d3d11\GraphicsDevice.h" />
+    <ClInclude Include="..\src\d3d11\Material.h" />
     <ClInclude Include="..\src\d3d11\PixelShader.h" />
+    <ClInclude Include="..\src\d3d11\RenderStates.h" />
     <ClInclude Include="..\src\d3d11\Shader.h" />
     <ClInclude Include="..\src\d3d11\ShaderConstantBuffer.h" />
+    <ClInclude Include="..\src\d3d11\ShaderPass.h" />
+    <ClInclude Include="..\src\d3d11\ShaderPropertyType.h" />
     <ClInclude Include="..\src\d3d11\ShaderSampler.h" />
     <ClInclude Include="..\src\d3d11\ShaderTexture.h" />
     <ClInclude Include="..\src\d3d11\Texture2D.h" />
@@ -116,7 +122,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)\..\out\winpc\$(Configuration)\</OutDir>
-    <IncludePath>..\..\lib\depend\zlib\include;..\..\lib\src\d3d11;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\lib\depend\zlib\include;..\..\lib\src\d3d11;..\..\lib\src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

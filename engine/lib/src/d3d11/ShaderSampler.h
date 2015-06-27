@@ -12,10 +12,6 @@ namespace Galaxy3D
 		int slot;
 
 		ShaderSampler():sampler(nullptr),slot(-1) {}
-		void Release()
-		{
-			SAFE_RELEASE(sampler);
-		}
 	};
 }
 

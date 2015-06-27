@@ -12,6 +12,7 @@
 #include "Sprite.h"
 #include "Shader.h"
 #include "Application.h"
+#include "Material.h"
 
 #pragma comment(lib, "jpeg.lib")
 #pragma comment(lib, "png.lib")
@@ -19,7 +20,8 @@
 #pragma comment(lib, "galaxy3d.lib")
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "winmm.lib")
-#pragma comment(lib, "D3Dcompiler.lib")
+#pragma comment(lib, "d3dcompiler.lib")
+
 using namespace Galaxy3D;
 
 static const char g_title[] = "Galaxy3D Game";
@@ -47,7 +49,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	auto cam = obj->AddComponent<Camera>();
 	auto tex = Texture2D::LoadImageFile(Application::GetDataPath() + "/Assets/texture/mustang.jpg");
 	auto sprite = Sprite::Create(tex);
-	auto shader = Shader::Find("Sprite");
+	auto mat = Material::Create(Shader::Find("Sprite"));
 
 	// Main message loop
 	MSG msg = {0};

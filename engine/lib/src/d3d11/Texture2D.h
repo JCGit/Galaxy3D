@@ -1,8 +1,8 @@
 #ifndef __Texture2D_h__
 #define __Texture2D_h__
 
-#include "../Texture.h"
-#include "../TextureFormat.h"
+#include "Texture.h"
+#include "TextureFormat.h"
 #include <d3d11.h>
 #include <vector>
 

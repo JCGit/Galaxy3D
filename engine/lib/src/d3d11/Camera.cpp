@@ -1,9 +1,9 @@
 #include "Camera.h"
-#include "../GameObject.h"
+#include "GameObject.h"
 #include "GraphicsDevice.h"
-#include "../GTTime.h"
-#include "../Debug.h"
-#include "../Screen.h"
+#include "GTTime.h"
+#include "Debug.h"
+#include "Screen.h"
 
 namespace Galaxy3D
 {

@@ -12,10 +12,6 @@ namespace Galaxy3D
 		int slot;
 
 		ShaderTexture():texture(nullptr),slot(-1) {}
-		void Release()
-		{
-			SAFE_RELEASE(texture);
-		}
 	};
 }
 

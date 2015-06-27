@@ -1,10 +1,10 @@
 #include "Shader.h"
 #include "GraphicsDevice.h"
-#include "../Application.h"
-#include "../Debug.h"
-#include "../GTFile.h"
-#include "../GTString.h"
-#include "../VertexType.h"
+#include "Application.h"
+#include "Debug.h"
+#include "GTFile.h"
+#include "GTString.h"
+#include "VertexType.h"
 
 #ifdef WIN32
 #include <io.h>
@@ -156,6 +156,24 @@ static const TypeSize TYPE_SIZE[TYPE_COUNT] =
 	{"int4", 16},
 };
 
+static const int QueueNameCount = 5;
+static const std::string QueueNames[QueueNameCount] =
+{
+	"Background",
+	"Geometry",
+	"AlphaTest",
+	"Transparent",
+	"Overlay",
+};
+static const int QueueValues[QueueNameCount] =
+{
+	1000,
+	2000,
+	2450,
+	3000,
+	4000,
+};
+
 namespace Galaxy3D
 {
 	std::unordered_map<std::string, std::shared_ptr<Shader>> Shader::m_shaders;
@@ -274,6 +292,8 @@ namespace Galaxy3D
 				shader->Parse(shader_src);
 				shader->CompileVS();
 				shader->CompilePS();
+				shader->CreateRenderStates();
+				shader->CreatePass();
 
 				m_shaders[name] = shader;
 			}
@@ -303,6 +323,12 @@ namespace Galaxy3D
 			i.second.Release();
 		}
 		m_pixel_shaders.clear();
+
+		for(auto i : m_render_states)
+		{
+			i.second.Release();
+		}
+		m_render_states.clear();
 	}
 
 	void Shader::Parse(const std::string &src)
@@ -364,6 +390,39 @@ namespace Galaxy3D
 
 					if(left_count == 0)
 					{
+						break;
+					}
+				}
+			}
+		}
+
+		for(auto &i : m_shader_node.children)
+		{
+			if(i.type == "Tags")
+			{
+				std::string queue;
+
+				GTString block = i.block;
+				block = block.Replace("\t", "");
+				block = block.Replace("\r", "\n");
+				auto lines = block.Split("\n", true);
+				for(auto j : lines)
+				{
+					auto splits = j.Split(" ");
+					if(splits.size() == 2)
+					{
+						if(splits[0].str == "Queue")
+						{
+							queue = splits[1].str;
+						}
+					}
+				}
+
+				for(int j=0; j<QueueNameCount; j++)
+				{
+					if(queue == QueueNames[j])
+					{
+						m_render_queue = QueueValues[j];
 						break;
 					}
 				}
@@ -747,6 +806,123 @@ namespace Galaxy3D
 		}
 	}
 
+	static void find_textures(const std::string &type, const std::string &src, PixelShader *shader)
+	{
+		size_t pos = 0;
+		size_t find_Texture;
+		while((find_Texture = src.find(type, pos)) != std::string::npos)
+		{
+			size_t find_left;
+			size_t find_right;
+			
+			find_left = src.find(";", find_Texture);
+			if(find_left == std::string::npos)
+			{
+				return;
+			}
+
+			std::string str_register = "register";
+			size_t find_register = src.find(str_register, find_Texture);
+			if(find_register == std::string::npos)
+			{
+				return;
+			}
+
+			if(find_register > find_left)
+			{
+				Debug::Log("Texture have no register");
+				return;
+			}
+
+			find_left = src.find("(", find_register);
+			find_right = src.find(")", find_register);
+
+			GTString register_name = src.substr(find_left + 1, find_right - find_left - 1);
+			register_name = register_name.Replace(" ", "");
+
+			GTString tname("");
+			int index;
+			separate_semantic(register_name, &tname, &index);
+			if(tname.str == "t" && index >= 0)
+			{
+				find_right = src.find(":", find_Texture);
+				GTString name = src.substr(find_Texture + type.length(), find_right - find_Texture - type.length());
+				name = name.Replace("\n", "");
+				name = name.Replace(" ", "");
+
+				ShaderTexture tex;
+				tex.texture = nullptr;
+				tex.slot = index;
+				shader->textures[name.str] = tex;
+
+				pos = find_register + 1;
+			}
+			else
+			{
+				Debug::Log("Texture register error");
+			}
+		}
+	}
+
+	static void find_samplers(const std::string &src, PixelShader *shader)
+	{
+		std::string SamplerState = "SamplerState";
+		size_t pos = 0;
+		size_t find_SamplerState;
+		while((find_SamplerState = src.find(SamplerState, pos)) != std::string::npos)
+		{
+			size_t find_left;
+			size_t find_right;
+			
+			find_left = src.find(";", find_SamplerState);
+			if(find_left == std::string::npos)
+			{
+				return;
+			}
+
+			std::string str_register = "register";
+			size_t find_register = src.find(str_register, find_SamplerState);
+			if(find_register == std::string::npos)
+			{
+				return;
+			}
+
+			if(find_register > find_left)
+			{
+				Debug::Log("SamplerState have no register");
+				return;
+			}
+
+			find_left = src.find("(", find_register);
+			find_right = src.find(")", find_register);
+
+			GTString register_name = src.substr(find_left + 1, find_right - find_left - 1);
+			register_name = register_name.Replace(" ", "");
+
+			GTString sname("");
+			int index;
+			separate_semantic(register_name, &sname, &index);
+			if(sname.str == "s" && index >= 0)
+			{
+				find_right = src.find(":", find_SamplerState);
+				GTString name = src.substr(find_SamplerState + SamplerState.length(), find_right - find_SamplerState - SamplerState.length());
+				name = name.Replace("\n", "");
+				name = name.Replace(" ", "");
+
+				ShaderSampler sam;
+				sam.sampler = nullptr;
+				sam.slot = index;
+				shader->samplers[name.str] = sam;
+
+				pos = find_register + 1;
+			}
+			else
+			{
+				Debug::Log("SamplerState register error");
+			}
+		}
+	}
+
 	void Shader::CompilePS()
 	{
 		auto device = GraphicsDevice::GetInstance()->GetDevice();
@@ -785,14 +961,85 @@ namespace Galaxy3D
 				}
 
 				CreateConstantBuffers(i.block, ps.cbuffers);
-				/*
-				LoadTextures("Texture2D", src, shader);
-				LoadTextures("TextureCube", src, shader);
-				LoadSamplerStates(src, shader);
-				*/
+				find_textures("Texture2D", i.block, &ps);
+				find_textures("TextureCube", i.block, &ps);
+				find_samplers(i.block, &ps);
+
 				SAFE_RELEASE(p_blob);
 
 				m_pixel_shaders[i.name] = ps;
+			}
+		}
+	}
+
+	void Shader::CreateRenderStates()
+	{
+		for(auto &i : m_shader_node.children)
+		{
+			if(i.type == "RenderStates")
+			{
+				RenderStates rs;
+				rs.Parse(i.block);
+				rs.Create();
+
+				m_render_states[i.name] = rs;
+			}
+		}
+	}
+
+	void Shader::CreatePass()
+	{
+		for(auto &i : m_shader_node.children)
+		{
+			if(i.type == "Pass")
+			{
+				std::string vs;
+				std::string ps;
+				std::string rs;
+
+				GTString block = i.block;
+				block = block.Replace("\t", "");
+				block = block.Replace("\r", "\n");
+				auto lines = block.Split("\n", true);
+				for(auto j : lines)
+				{
+					auto splits = j.Split(" ");
+					if(splits.size() == 2)
+					{
+						if(splits[0].str == "VS")
+						{
+							vs = splits[1].str;
+						}
+						else if(splits[0].str == "PS")
+						{
+							ps = splits[1].str;
+						}
+						else if(splits[0].str == "RenderStates")
+						{
+							rs = splits[1].str;
+						}
+					}
+				}
+
+				ShaderPass pass;
+				pass.name = i.name;
+				
+				if(m_vertex_shaders.count(vs) > 0)
+				{
+					pass.vs = &m_vertex_shaders[vs];
+				}
+
+				if(m_pixel_shaders.count(ps) > 0)
+				{
+					pass.ps = &m_pixel_shaders[ps];
+				}
+
+				if(m_render_states.count(rs) > 0)
+				{
+					pass.rs = &m_render_states[rs];
+				}
+
+				m_passes.push_back(pass);
 			}
 		}
 	}
