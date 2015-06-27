@@ -3,9 +3,23 @@
 #include <d3d11.h>
 #include <cstdio>
 
-#include "GameObject.h"
 #include "World.h"
+#include "GraphicsDevice.h"
+#include "Screen.h"
+#include "Camera.h"
+#include "Sprite.h"
+#include "Application.h"
+#include "SpriteRenderer.h"
+
+#pragma comment(lib, "jpeg.lib")
+#pragma comment(lib, "png.lib")
+#pragma comment(lib, "zlib.lib")
 #pragma comment(lib, "galaxy3d.lib")
+#pragma comment(lib, "d3d11.lib")
+#pragma comment(lib, "winmm.lib")
+#pragma comment(lib, "d3dcompiler.lib")
+
+using namespace Galaxy3D;
 
 static const char g_title[] = "Galaxy3D Game";
 static const int g_screen_w = 640;
@@ -18,12 +32,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	auto obj = Galaxy3D::GameObject::Create("obj");
-	auto obj2 = Galaxy3D::GameObject::Create("obj2");
-	auto obj3 = Galaxy3D::GameObject::Create("obj3");
-	obj2.lock()->GetTransform().lock()->SetParent(obj.lock()->GetTransform());
-	obj2.lock()->GetTransform().lock()->SetParent(obj3.lock()->GetTransform());
-
 	AllocConsole();
 	FILE* fstdout = 0;
 	freopen_s(&fstdout, "CONOUT$", "w", stdout);
@@ -31,6 +39,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	if(FAILED(InitWindow(hInstance, nCmdShow, g_screen_w, g_screen_h)))
 		return 0;
 
+	Screen::SetSize(g_screen_w, g_screen_h);
+	GraphicsDevice::GetInstance()->Init(g_hwnd);
+
+	auto cam = GameObject::Create("camera")->AddComponent<Camera>();
+	auto sprite = Sprite::Create(Application::GetDataPath() + "/Assets/texture/mustang.jpg");
+	auto renderer = GameObject::Create("renderer")->AddComponent<SpriteRenderer>();
+	renderer->SetSprite(sprite);
+	
 	// Main message loop
 	MSG msg = {0};
 	while(WM_QUIT != msg.message)
@@ -44,16 +60,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		{
 			Sleep(1);
 
-			Galaxy3D::World::Update();
+			World::Update();
+			Camera::RenderAll();
 		}
 	}
+
+	World::Destroy();
 
 	if(fstdout != 0)
 	{
 		fclose(fstdout);
 	}
 
-	return (int)msg.wParam;
+	return (int) msg.wParam;
 }
 
 HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow, int width, int height)

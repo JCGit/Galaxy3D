@@ -17,8 +17,6 @@ namespace Galaxy3D
 		std::string m_name;
 
 		Object();
-
-	private:
 	};
 }
 

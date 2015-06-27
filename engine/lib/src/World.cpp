@@ -1,4 +1,5 @@
 #include "World.h"
+#include "GTTime.h"
 
 namespace Galaxy3D
 {
@@ -29,6 +30,8 @@ namespace Galaxy3D
 
 	void World::Update()
 	{
+		float time = GTTime::GetRealTimeSinceStartup();
+
 		m_gameobjects.insert(m_gameobjects_new.begin(), m_gameobjects_new.end());
 		m_gameobjects_new.clear();
 
@@ -69,5 +72,13 @@ namespace Galaxy3D
 		{
 			m_gameobjects.erase(i);
 		}
+
+		GTTime::m_update_time = GTTime::GetRealTimeSinceStartup() - time;
+	}
+
+	void World::Destroy()
+	{
+		m_gameobjects_new.clear();
+		m_gameobjects.clear();
 	}
 }
