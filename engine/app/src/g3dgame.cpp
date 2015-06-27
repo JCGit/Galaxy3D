@@ -9,7 +9,7 @@
 #include "Camera.h"
 #include "Sprite.h"
 #include "Application.h"
-#include "Material.h"
+#include "SpriteRenderer.h"
 
 #pragma comment(lib, "jpeg.lib")
 #pragma comment(lib, "png.lib")
@@ -42,10 +42,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	Screen::SetSize(g_screen_w, g_screen_h);
 	GraphicsDevice::GetInstance()->Init(g_hwnd);
 
-	auto cam = GameObject::Create("obj")->AddComponent<Camera>();
+	auto cam = GameObject::Create("camera")->AddComponent<Camera>();
 	auto sprite = Sprite::Create(Application::GetDataPath() + "/Assets/texture/mustang.jpg");
-	auto mat = Material::Create("Sprite");
-
+	auto renderer = GameObject::Create("renderer")->AddComponent<SpriteRenderer>();
+	renderer->SetSprite(sprite);
+	
 	// Main message loop
 	MSG msg = {0};
 	while(WM_QUIT != msg.message)

@@ -20,6 +20,7 @@
     <ClCompile Include="..\src\d3d11\Material.cpp" />
     <ClCompile Include="..\src\d3d11\RenderStates.cpp" />
     <ClCompile Include="..\src\d3d11\Shader.cpp" />
+    <ClCompile Include="..\src\d3d11\SpriteRenderer.cpp" />
     <ClCompile Include="..\src\d3d11\Texture2D.cpp" />
     <ClCompile Include="..\src\Debug.cpp" />
     <ClCompile Include="..\src\GameObject.cpp" />
@@ -59,6 +60,7 @@
     <ClInclude Include="..\src\d3d11\ShaderPropertyType.h" />
     <ClInclude Include="..\src\d3d11\ShaderSampler.h" />
     <ClInclude Include="..\src\d3d11\ShaderTexture.h" />
+    <ClInclude Include="..\src\d3d11\SpriteRenderer.h" />
     <ClInclude Include="..\src\d3d11\Texture2D.h" />
     <ClInclude Include="..\src\d3d11\VertexShader.h" />
     <ClInclude Include="..\src\Debug.h" />

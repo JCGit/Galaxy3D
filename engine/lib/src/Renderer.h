@@ -22,7 +22,7 @@ namespace Galaxy3D
 		std::shared_ptr<Material> GetSharedMaterial() const;
 		std::vector<std::shared_ptr<Material>> GetMaterials() const;
 		std::shared_ptr<Material> GetMaterial() const;
-		virtual void Render() const {}
+		virtual void Render() = 0;
 
 	protected:
 		bool m_cast_shadow;

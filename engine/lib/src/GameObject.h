@@ -62,7 +62,7 @@ namespace Galaxy3D
 		for(auto i : m_components)
 		{
 			auto t = std::dynamic_pointer_cast<T>(i);
-			if(t.use_count() > 0)
+			if(t)
 			{
 				return t;
 			}
@@ -71,7 +71,7 @@ namespace Galaxy3D
 		for(auto i : m_components_new)
 		{
 			auto t = std::dynamic_pointer_cast<T>(i);
-			if(t.use_count() > 0)
+			if(t)
 			{
 				return t;
 			}

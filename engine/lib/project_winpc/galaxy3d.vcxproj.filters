@@ -96,6 +96,9 @@
     <ClCompile Include="..\src\d3d11\Material.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\d3d11\SpriteRenderer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Component.h">
@@ -240,6 +243,9 @@
       <Filter>源文件</Filter>
     </ClInclude>
     <ClInclude Include="..\src\LayerMask.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\d3d11\SpriteRenderer.h">
       <Filter>源文件</Filter>
     </ClInclude>
   </ItemGroup>

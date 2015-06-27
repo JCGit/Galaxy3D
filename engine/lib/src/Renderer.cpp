@@ -65,7 +65,7 @@ namespace Galaxy3D
 	{
 		m_shared_materials.clear();
 
-		if(material.use_count() > 0)
+		if(material)
 		{
 			m_shared_materials.push_back(material);
 		}
@@ -103,7 +103,7 @@ namespace Galaxy3D
 		std::shared_ptr<Material> mat;
 
 		auto shared = GetSharedMaterial();
-		if(shared.use_count() > 0)
+		if(shared)
 		{
 			mat = Material::Create(shared->GetShader());
 			mat->Copy(*shared.get());
