@@ -17,6 +17,8 @@ namespace Galaxy3D
 		static std::shared_ptr<Shader> Find(const std::string &name);
 		~Shader();
 		int GetRenderQueue() const {return m_render_queue;}
+		int GetPassCount() const {return m_passes.size();}
+		ShaderPass *GetPass(int pass) {return &m_passes[pass];}
 
 	private:
 		static std::unordered_map<std::string, std::shared_ptr<Shader>> m_shaders;

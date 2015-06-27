@@ -70,6 +70,7 @@
     <ClInclude Include="..\src\GTTime.h" />
     <ClInclude Include="..\src\Image.h" />
     <ClInclude Include="..\src\Layer.h" />
+    <ClInclude Include="..\src\LayerMask.h" />
     <ClInclude Include="..\src\Mathf.h" />
     <ClInclude Include="..\src\Matrix4x4.h" />
     <ClInclude Include="..\src\Object.h" />

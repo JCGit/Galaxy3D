@@ -4,10 +4,12 @@
 #include "GTTime.h"
 #include "Debug.h"
 #include "Screen.h"
+#include "Renderer.h"
 
 namespace Galaxy3D
 {
 	std::list<Camera *> Camera::m_cameras;
+	std::shared_ptr<Camera> Camera::m_current;
 
 	Camera::Camera():
 		m_clear_flags(CameraClearFlags::SolidColor),
@@ -149,5 +151,7 @@ namespace Galaxy3D
 		context->ClearDepthStencilView(depth_buffer, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 		
 		//render
+		m_current = GetGameObject()->GetComponent<Camera>();
+		Renderer::RenderAll();
 	}
 }

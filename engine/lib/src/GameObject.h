@@ -18,11 +18,14 @@ namespace Galaxy3D
 		static std::shared_ptr<GameObject> Create(const std::string &name);
 		static void Destroy(std::weak_ptr<GameObject> &obj);
 		virtual ~GameObject();
-		template<class T> inline std::shared_ptr<Component> AddComponent();
+		template<class T> std::shared_ptr<T> AddComponent();
+		template<class T> std::shared_ptr<T> GetComponent();
 		std::shared_ptr<Transform> GetTransform() const {return m_transform.lock();}
 		bool IsActiveInHierarchy() const {return m_active_in_hierarchy;}
 		bool IsActiveSelf()const {return m_active_self;}
 		void SetActive(bool active);
+		int GetLayer() const {return m_layer;}
+		void SetLayer(int layer) {m_layer = layer;}
 
 	private:
 		std::list<std::shared_ptr<Component>> m_components;
@@ -41,19 +44,40 @@ namespace Galaxy3D
 		void SetActiveInHierarchy(bool active);
 	};
 
-	template<class T> inline std::shared_ptr<Component> GameObject::AddComponent()
+	template<class T> std::shared_ptr<T> GameObject::AddComponent()
 	{
 		if(m_deleted)
 		{
-			return std::shared_ptr<Component>();
+			return std::shared_ptr<T>();
 		}
 
 		auto t = std::make_shared<T>();
-		std::shared_ptr<Component> com = std::dynamic_pointer_cast<Component>(t);
+		AddComponent(std::dynamic_pointer_cast<Component>(t), false);
 
-		AddComponent(com, false);
+		return t;
+	}
 
-		return com;
+	template<class T> std::shared_ptr<T> GameObject::GetComponent()
+	{
+		for(auto i : m_components)
+		{
+			auto t = std::dynamic_pointer_cast<T>(i);
+			if(t.use_count() > 0)
+			{
+				return t;
+			}
+		}
+
+		for(auto i : m_components_new)
+		{
+			auto t = std::dynamic_pointer_cast<T>(i);
+			if(t.use_count() > 0)
+			{
+				return t;
+			}
+		}
+
+		return std::shared_ptr<T>();
 	}
 }
 

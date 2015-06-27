@@ -7,6 +7,7 @@
 #include "Color.h"
 #include "Matrix4x4.h"
 #include "Texture.h"
+#include "Vector2.h"
 #include <unordered_map>
 
 namespace Galaxy3D
@@ -19,6 +20,8 @@ namespace Galaxy3D
 		const std::shared_ptr<Shader> &GetShader() {return m_shader;}
 		void SetRenderQueue(int queue);
 		int GetRenderQueue() const {return m_render_queue;}
+		void SetMainTextureOffset(const Vector2 &offset) {m_main_texture_offset = offset;}
+		void SetMainTextureScale(const Vector2 &scale) {m_main_texture_scale = scale;}
 		void SetVector(const std::string &name, const Vector4 &vector);
 		void SetColor(const std::string &name, const Color &color);
 		void SetMatrix(const std::string &name, const Matrix4x4 &matrix);
@@ -28,7 +31,8 @@ namespace Galaxy3D
 		std::shared_ptr<Texture> GetMainTexture();
 		std::shared_ptr<Texture> GetTexture(const std::string &name);
 		void Copy(const Material &mat);
-		void Apply(int pass);
+		void ReadyPass(int pass);
+		void ApplyPass(int pass);
 
 	private:
 		std::shared_ptr<Shader> m_shader;
@@ -37,8 +41,9 @@ namespace Galaxy3D
 		std::unordered_map<std::string, std::vector<Matrix4x4>> m_matrix_arrays;
 		std::unordered_map<std::string, std::shared_ptr<Texture>> m_textures;
 		std::unordered_map<std::string, Vector4> m_vectors;
-		
 		int m_render_queue;
+		Vector2 m_main_texture_offset;
+		Vector2 m_main_texture_scale;
 
 		Material();
 		Material(const Material &mat) {}
