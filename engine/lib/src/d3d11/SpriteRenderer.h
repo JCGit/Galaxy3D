@@ -19,6 +19,8 @@ namespace Galaxy3D
 	private:
 		Color m_color;
 		std::shared_ptr<Sprite> m_sprite;
+		ID3D11Buffer *m_vertex_buffer;
+		ID3D11Buffer *m_index_buffer;
 	};
 }
 
