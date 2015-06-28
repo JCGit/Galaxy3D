@@ -181,7 +181,10 @@ namespace Galaxy3D
 			is.seekg(0, std::ios::beg);
 
 			ret.resize(size);
-			is.read(&ret[0], size);
+			if(size > 0)
+			{
+				is.read(&ret[0], size);
+			}
 			is.close();
 		}
 		else

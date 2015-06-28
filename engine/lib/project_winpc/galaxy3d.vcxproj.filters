@@ -194,9 +194,6 @@
     <ClInclude Include="..\src\Vector4.h">
       <Filter>源文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\SpriteMeshType.h">
-      <Filter>源文件</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Matrix4x4.h">
       <Filter>源文件</Filter>
     </ClInclude>

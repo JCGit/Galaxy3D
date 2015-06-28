@@ -83,7 +83,6 @@
     <ClInclude Include="..\src\Screen.h" />
     <ClInclude Include="..\src\ShaderNode.h" />
     <ClInclude Include="..\src\Sprite.h" />
-    <ClInclude Include="..\src\SpriteMeshType.h" />
     <ClInclude Include="..\src\Texture.h" />
     <ClInclude Include="..\src\TextureFormat.h" />
     <ClInclude Include="..\src\TextureWrapMode.h" />
@@ -124,7 +123,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)\..\out\winpc\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)\..\out\winpc\</OutDir>
     <IncludePath>..\..\lib\depend\zlib\include;..\..\lib\src\d3d11;..\..\lib\src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
