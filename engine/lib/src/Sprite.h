@@ -24,6 +24,10 @@ namespace Galaxy3D
 			const Vector2 &pivot,
 			float pixels_per_unit,
 			const Vector4 &border);
+		Vector2 *GetVertices() {return m_vertices;}
+		Vector2 *GetUV() {return m_uv;}
+		unsigned short *GetIndices() {return m_triangles;}
+		std::shared_ptr<Texture2D> GetTexture() const {return m_texture;}
 
 	private:
 		std::shared_ptr<Texture2D> m_texture;

@@ -28,6 +28,7 @@ namespace Galaxy3D
 		void SetClipPlane(float near_clip, float far_clip) {m_near_clip_plane = near_clip; m_far_clip_plane = far_clip;}
 		void SetRect(const Rect &rect) {m_rect = rect;}
 		void UpdateMatrix();
+		const Matrix4x4 &GetViewProjectionMatrix() const {return m_view_projection_matrix;}
 
 	protected:
 		virtual void Start();

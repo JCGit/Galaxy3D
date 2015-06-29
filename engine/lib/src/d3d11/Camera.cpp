@@ -17,7 +17,7 @@ namespace Galaxy3D
 		m_depth(0),
 		m_culling_mask(-1),
 		m_orthographic(true),
-		m_orthographic_size(5),
+		m_orthographic_size(1),
 		m_field_of_view(60),
 		m_near_clip_plane(-1),//0.3f
 		m_far_clip_plane(1),//1000

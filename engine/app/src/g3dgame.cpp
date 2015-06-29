@@ -22,8 +22,8 @@
 using namespace Galaxy3D;
 
 static const char g_title[] = "Galaxy3D Game";
-static const int g_screen_w = 640;
-static const int g_screen_h = 480;
+static const int g_screen_w = 960;
+static const int g_screen_h = 640;
 HINSTANCE g_hinst;
 HWND g_hwnd;
 
@@ -43,6 +43,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	GraphicsDevice::GetInstance()->Init(g_hwnd);
 
 	auto cam = GameObject::Create("camera")->AddComponent<Camera>();
+	cam->SetOrthographicSize(g_screen_h/200.f);
 	auto sprite = Sprite::Create(Application::GetDataPath() + "/Assets/texture/mustang.jpg");
 	auto renderer = GameObject::Create("renderer")->AddComponent<SpriteRenderer>();
 	renderer->SetSprite(sprite);
