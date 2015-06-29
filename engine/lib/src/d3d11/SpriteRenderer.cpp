@@ -32,5 +32,25 @@ namespace Galaxy3D
 			mat = Material::Create("Sprite");
 			SetSharedMaterial(mat);
 		}
+
+		if(m_vertex_buffer == nullptr)
+		{
+			CreateVertexBuffer();
+		}
+
+		if(m_index_buffer == nullptr)
+		{
+			CreateIndexBuffer();
+		}
+	}
+
+	void SpriteRenderer::CreateVertexBuffer()
+	{
+		
+	}
+
+	void SpriteRenderer::CreateIndexBuffer()
+	{
+		
 	}
 }

@@ -21,6 +21,9 @@ namespace Galaxy3D
 		std::shared_ptr<Sprite> m_sprite;
 		ID3D11Buffer *m_vertex_buffer;
 		ID3D11Buffer *m_index_buffer;
+
+		void CreateVertexBuffer();
+		void CreateIndexBuffer();
 	};
 }
 
