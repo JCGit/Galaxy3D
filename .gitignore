@@ -2,5 +2,9 @@
 *.opensdf
 *.o.d
 *.o
+g3dgame.exe
+g3dgame.ilk
+g3dgame.pdb
+galaxy3d.lib
 Debug/
 Release/

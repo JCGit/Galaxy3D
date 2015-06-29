@@ -9,7 +9,13 @@ namespace Galaxy3D
 {
 	std::shared_ptr<Material> Material::Create(const std::string &shader)
 	{
-		return Create(Shader::Find(shader));
+		auto s = Shader::Find(shader);
+		if(s)
+		{
+			return Create(s);
+		}
+		
+		return std::shared_ptr<Material>();
 	}
 
 	std::shared_ptr<Material> Material::Create(const std::shared_ptr<Shader> &shader)

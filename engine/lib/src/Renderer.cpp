@@ -17,7 +17,6 @@ namespace Galaxy3D
 		m_sorting_order(-1)
 	{
 		m_renderers.push_back(this);
-		Sort();
 	}
 
 	Renderer::~Renderer()
@@ -32,33 +31,34 @@ namespace Galaxy3D
 
 	bool Renderer::Less(const Renderer *c1, const Renderer *c2)
 	{
-		if(c1->m_sorting_layer >= 0 && c2->m_sorting_layer >= 0)
+		int q1 = c1->GetSharedMaterial()->GetRenderQueue();
+		if(q1 < 0)
 		{
-			if(c1->m_sorting_layer == c2->m_sorting_layer)
+			q1 = c1->GetSharedMaterial()->GetShader()->GetRenderQueue();
+		}
+
+		int q2 = c2->GetSharedMaterial()->GetRenderQueue();
+		if(q2 < 0)
+		{
+			q2 = c2->GetSharedMaterial()->GetShader()->GetRenderQueue();
+		}
+
+		if(q1 == q2)
+		{
+			if(c1->m_sorting_layer >= 0 && c2->m_sorting_layer >= 0)
 			{
-				return c1->m_sorting_order < c2->m_sorting_order;
-			}
-			else
-			{
-				return c1->m_sorting_layer < c2->m_sorting_layer;
+				if(c1->m_sorting_layer == c2->m_sorting_layer)
+				{
+					return c1->m_sorting_order < c2->m_sorting_order;
+				}
+				else
+				{
+					return c1->m_sorting_layer < c2->m_sorting_layer;
+				}
 			}
 		}
-		else
-		{
-			int q1 = c1->GetSharedMaterial()->GetRenderQueue();
-			if(q1 < 0)
-			{
-				q1 = c1->GetSharedMaterial()->GetShader()->GetRenderQueue();
-			}
-
-			int q2 = c2->GetSharedMaterial()->GetRenderQueue();
-			if(q2 < 0)
-			{
-				q2 = c2->GetSharedMaterial()->GetShader()->GetRenderQueue();
-			}
-
-			return q1 < q2;
-		}
+		
+		return q1 < q2;
 	}
 
 	void Renderer::SetSharedMaterial(const std::shared_ptr<Material> &material)

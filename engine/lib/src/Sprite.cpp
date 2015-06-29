@@ -5,7 +5,12 @@ namespace Galaxy3D
 	std::shared_ptr<Sprite> Sprite::Create(const std::string &file)
 	{
 		auto tex = Texture2D::LoadImageFile(file);
-		return Create(tex);
+		if(tex)
+		{
+			return Create(tex);
+		}
+		
+		return std::shared_ptr<Sprite>();
 	}
 
 	std::shared_ptr<Sprite> Sprite::Create(const std::shared_ptr<Texture2D> &texture)

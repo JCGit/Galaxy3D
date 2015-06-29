@@ -287,15 +287,23 @@ namespace Galaxy3D
 			{
 				auto shader_src = GTFile::ReadAllText(find_path->second);
 				
-				shader = std::shared_ptr<Shader>(new Shader());
-				shader->SetName(name);
-				shader->Parse(shader_src);
-				shader->CompileVS();
-				shader->CompilePS();
-				shader->CreateRenderStates();
-				shader->CreatePass();
+				auto s = std::shared_ptr<Shader>(new Shader());
+				s->SetName(name);
+				s->Parse(shader_src);
+				s->CompileVS();
+				s->CompilePS();
+				s->CreateRenderStates();
+				s->CreatePass();
 
-				m_shaders[name] = shader;
+				if(s->GetPassCount() > 0)
+				{
+					m_shaders[name] = s;
+					shader = s;
+				}
+				else
+				{
+					Debug::Log("shader source error:%s", name.c_str());
+				}
 			}
 			else
 			{
