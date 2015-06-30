@@ -112,6 +112,8 @@ namespace Galaxy3D
 		D3D11_BLEND_OP_MAX,
 	};
 
+	std::string RenderStates::m_current_states[KeyCount];
+
 	RenderStates::RenderStates():
 		resterizer_state(nullptr),
 		depth_stencil_state(nullptr),
@@ -366,5 +368,44 @@ namespace Galaxy3D
 		}
 
 		device->CreateBlendState(&bd, &blend_state);
+	}
+
+	void RenderStates::Apply()
+	{
+		auto context = GraphicsDevice::GetInstance()->GetDeviceContext();
+
+		if(m_current_states[0].empty())
+		{
+			context->RSSetState(resterizer_state);
+			context->OMSetDepthStencilState(depth_stencil_state, 1);
+			context->OMSetBlendState(blend_state, 0, 0xffffffff);
+		}
+		else
+		{
+			if(	m_current_states[Key::Cull] != m_values[Key::Cull] ||
+				m_current_states[Key::Offset] != m_values[Key::Offset])
+			{
+				context->RSSetState(resterizer_state);
+			}
+
+			if(	m_current_states[Key::ZWrite] != m_values[Key::ZWrite] ||
+				m_current_states[Key::ZTest] != m_values[Key::ZTest])
+			{
+				context->OMSetDepthStencilState(depth_stencil_state, 1);
+			}
+
+			if(	m_current_states[Key::ColorMask] != m_values[Key::ColorMask] ||
+				m_current_states[Key::Blend] != m_values[Key::Blend] ||
+				m_current_states[Key::BlendOp] != m_values[Key::BlendOp])
+			{
+				context->OMSetBlendState(blend_state, 0, 0xffffffff);
+			}
+		}
+
+		//set to current
+		for(int i=0; i<KeyCount; i++)
+		{
+			m_current_states[i] = m_values[i];
+		}
 	}
 }

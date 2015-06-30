@@ -12,6 +12,7 @@ namespace Galaxy3D
 		GraphicsDevice();
 		~GraphicsDevice();
 		void Init(void *param);
+		void ClearShaderResources();
 		ID3D11Device *GetDevice() const {return m_d3d_device;}
 		IDXGISwapChain *GetSwapChain() const {return m_swap_chain;}
 		ID3D11DeviceContext *GetDeviceContext() const {return m_immediate_context;}

@@ -51,8 +51,10 @@ namespace Galaxy3D
 		void Parse(const std::string &s);
 		void Create();
 		void Release();
+		void Apply();
 
 	private:
+		static std::string m_current_states[KeyCount];
 		std::string m_values[KeyCount];
 	};
 }

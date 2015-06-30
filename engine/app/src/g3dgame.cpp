@@ -10,6 +10,7 @@
 #include "Sprite.h"
 #include "Application.h"
 #include "SpriteRenderer.h"
+#include "Texture2D.h"
 
 #pragma comment(lib, "jpeg.lib")
 #pragma comment(lib, "png.lib")
@@ -33,6 +34,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	AllocConsole();
+	SetConsoleTitle("Galaxy3D Console");
 	FILE* fstdout = 0;
 	freopen_s(&fstdout, "CONOUT$", "w", stdout);
 
@@ -46,6 +48,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	cam->SetOrthographicSize(g_screen_h/200.f);
 	auto sprite = Sprite::Create(Application::GetDataPath() + "/Assets/texture/mustang.jpg");
 	auto renderer = GameObject::Create("renderer")->AddComponent<SpriteRenderer>();
+	renderer->SetSprite(sprite);
+
+	auto tex = Texture2D::LoadImageFile(Application::GetDataPath() + "/Assets/texture/test.jpg");
+	sprite = Sprite::Create(tex, Rect(192*0, 353*1, 192, 353), Vector2(96, 353), 100, Vector4());
+	renderer = GameObject::Create("renderer")->AddComponent<SpriteRenderer>();
 	renderer->SetSprite(sprite);
 	
 	// Main message loop

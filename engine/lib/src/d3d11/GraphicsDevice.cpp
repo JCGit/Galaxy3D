@@ -125,4 +125,10 @@ namespace Galaxy3D
 		descDSV.Texture2D.MipSlice = 0;
 		m_d3d_device->CreateDepthStencilView(m_depth_stencil_texture, &descDSV, &m_depth_stencil_view);
 	}
+
+	void GraphicsDevice::ClearShaderResources()
+	{
+		ID3D11ShaderResourceView *empty[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+		m_immediate_context->PSSetShaderResources(0, 8, empty);
+	}
 }

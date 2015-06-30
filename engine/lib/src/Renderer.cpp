@@ -31,16 +31,24 @@ namespace Galaxy3D
 
 	bool Renderer::Less(const Renderer *c1, const Renderer *c2)
 	{
-		int q1 = c1->GetSharedMaterial()->GetRenderQueue();
-		if(q1 < 0)
+		auto m1 = c1->GetSharedMaterial();
+		auto m2 = c2->GetSharedMaterial();
+
+		if(!m1 || !m2)
 		{
-			q1 = c1->GetSharedMaterial()->GetShader()->GetRenderQueue();
+			return false;
 		}
 
-		int q2 = c2->GetSharedMaterial()->GetRenderQueue();
+		int q1 = m1->GetRenderQueue();
+		if(q1 < 0)
+		{
+			q1 = m1->GetShader()->GetRenderQueue();
+		}
+
+		int q2 = m2->GetRenderQueue();
 		if(q2 < 0)
 		{
-			q2 = c2->GetSharedMaterial()->GetShader()->GetRenderQueue();
+			q2 = m2->GetShader()->GetRenderQueue();
 		}
 
 		if(q1 == q2)

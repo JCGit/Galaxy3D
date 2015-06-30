@@ -13,7 +13,7 @@ namespace Galaxy3D
 		virtual ~SpriteRenderer();
 		virtual void Render();
 		void SetColor(const Color &color) {m_color = color;}
-		void SetSprite(const std::shared_ptr<Sprite> &sprite) {m_sprite = sprite;}
+		void SetSprite(const std::shared_ptr<Sprite> &sprite);
 		std::shared_ptr<Sprite> GetSprite() const {return m_sprite;}
 
 	private:
@@ -22,8 +22,8 @@ namespace Galaxy3D
 		ID3D11Buffer *m_vertex_buffer;
 		ID3D11Buffer *m_index_buffer;
 
-		void CreateVertexBuffer();
-		void CreateIndexBuffer();
+		void CreateVertexBuffer(const std::shared_ptr<Sprite> &sprite);
+		void CreateIndexBuffer(const std::shared_ptr<Sprite> &sprite);
 	};
 }
 
