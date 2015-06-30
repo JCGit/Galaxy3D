@@ -30,16 +30,12 @@ namespace Galaxy3D
 			}
 			else
 			{
-				
+				UpdateVertexBuffer(sprite);
 			}
 
 			if(m_index_buffer == nullptr)
 			{
 				CreateIndexBuffer(sprite);
-			}
-			else
-			{
-				
 			}
 		}
 
@@ -87,14 +83,11 @@ namespace Galaxy3D
 		GraphicsDevice::GetInstance()->ClearShaderResources();
 	}
 
-	void SpriteRenderer::CreateVertexBuffer(const std::shared_ptr<Sprite> &sprite)
+	static void fill_vertex_buffer(char *buffer, const std::shared_ptr<Sprite> &sprite, const Color &color)
 	{
-		int vertex_size = sizeof(VertexMesh);
+		char *p = buffer;
 		Vector2 *vertices = sprite->GetVertices();
 		Vector2 *uv = sprite->GetUV();
-		int buffer_size = vertex_size * 4;
-		char *buffer = (char *) malloc(buffer_size);
-		char *p = buffer;
 
 		for(int i=0; i<4; i++)
 		{
@@ -110,7 +103,7 @@ namespace Galaxy3D
 			memcpy(p, &t, sizeof(Vector4));
 			p += sizeof(Vector4);
 
-			Color c = m_color;
+			Color c = color;
 			memcpy(p, &c, sizeof(Color));
 			p += sizeof(Color);
 
@@ -122,6 +115,14 @@ namespace Galaxy3D
 			memcpy(p, &v2, sizeof(Vector2));
 			p += sizeof(Vector2);
 		}
+	}
+
+	void SpriteRenderer::CreateVertexBuffer(const std::shared_ptr<Sprite> &sprite)
+	{
+		int buffer_size = sizeof(VertexMesh) * 4;
+		char *buffer = (char *) malloc(buffer_size);
+
+		fill_vertex_buffer(buffer, sprite, m_color);
 
 		bool dynamic = true;
 
@@ -139,6 +140,24 @@ namespace Galaxy3D
 		data.pSysMem = buffer;
 		HRESULT hr = device->CreateBuffer(&bd, &data, &m_vertex_buffer);
 		
+		free(buffer);
+	}
+
+	void SpriteRenderer::UpdateVertexBuffer(const std::shared_ptr<Sprite> &sprite)
+	{
+		int buffer_size = sizeof(VertexMesh) * 4;
+		char *buffer = (char *) malloc(buffer_size);
+
+		fill_vertex_buffer(buffer, sprite, m_color);
+
+		auto context = GraphicsDevice::GetInstance()->GetDeviceContext();
+
+		D3D11_MAPPED_SUBRESOURCE dms;
+		ZeroMemory(&dms, sizeof(dms));
+		context->Map(m_vertex_buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &dms);
+		memcpy(dms.pData, &buffer[0], buffer_size);
+		context->Unmap(m_vertex_buffer, 0);
+
 		free(buffer);
 	}
 

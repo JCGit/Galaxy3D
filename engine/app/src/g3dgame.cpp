@@ -50,11 +50,50 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	auto renderer = GameObject::Create("renderer")->AddComponent<SpriteRenderer>();
 	renderer->SetSprite(sprite);
 
-	auto tex = Texture2D::LoadImageFile(Application::GetDataPath() + "/Assets/texture/test.jpg");
-	sprite = Sprite::Create(tex, Rect(192*0, 353*1, 192, 353), Vector2(96, 353), 100, Vector4());
+	auto tex = Texture2D::LoadImageFile(Application::GetDataPath() + "/Assets/texture/test.png");
+
+	float h = 384.f;
+	std::shared_ptr<Sprite> sps[20];
+	for(int i=0; i<5; i++)
+	{
+		for(int j=0; j<4; j++)
+		{
+			sps[i*4 + j] = Sprite::Create(tex, Rect(192.f*i, h*j, 192, h), Vector2(96, h), 100, Vector4());
+		}
+	}
+
 	renderer = GameObject::Create("renderer")->AddComponent<SpriteRenderer>();
-	renderer->SetSprite(sprite);
-	
+	renderer->GetTransform()->SetPosition(Vector3(-3, -2.f, 0));
+	renderer->SetSprite(sps[0]);
+
+	renderer = GameObject::Create("renderer")->AddComponent<SpriteRenderer>();
+	renderer->GetTransform()->SetPosition(Vector3(-2, -2.f, 0));
+	renderer->SetSprite(sps[1]);
+
+	renderer = GameObject::Create("renderer")->AddComponent<SpriteRenderer>();
+	renderer->GetTransform()->SetPosition(Vector3(-1, -2.f, 0));
+	renderer->SetSprite(sps[2]);
+
+	renderer = GameObject::Create("renderer")->AddComponent<SpriteRenderer>();
+	renderer->GetTransform()->SetPosition(Vector3(0, -2.f, 0));
+	renderer->SetSprite(sps[3]);
+
+	renderer = GameObject::Create("renderer")->AddComponent<SpriteRenderer>();
+	renderer->GetTransform()->SetPosition(Vector3(1, -2.f, 0));
+	renderer->SetSprite(sps[4]);
+
+	renderer = GameObject::Create("renderer")->AddComponent<SpriteRenderer>();
+	renderer->GetTransform()->SetPosition(Vector3(2, -2.f, 0));
+	renderer->SetSprite(sps[5]);
+
+	renderer = GameObject::Create("renderer")->AddComponent<SpriteRenderer>();
+	renderer->GetTransform()->SetPosition(Vector3(3, -2.f, 0));
+	renderer->SetSprite(sps[6]);
+
+	renderer = GameObject::Create("renderer")->AddComponent<SpriteRenderer>();
+	renderer->GetTransform()->SetPosition(Vector3(4, -2.f, 0));
+	renderer->SetSprite(sps[7]);
+
 	// Main message loop
 	MSG msg = {0};
 	while(WM_QUIT != msg.message)
